@@ -107,7 +107,7 @@ print("Shopping ingredients for user 1:", call_function("GetUserShoppingIngredie
 print(' ')
 print("Vegetarian meals under SEK60:", call_function("GetVegMealsUnderBudget", 60.00))
 print(' ')
-print("Meals sorted by protein:", call_function("GetMealsByProtein"))
+print("Meals ranked by protein:", call_function("GetMealsByProtein"))
 
 cursor.close()
 conn.close()
