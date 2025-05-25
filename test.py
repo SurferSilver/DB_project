@@ -30,7 +30,7 @@ def insert_test_data():
     cursor.execute("DELETE FROM Ingredients")
     cursor.execute("DELETE FROM Users")
     
-    cursor.execute("INSERT INTO Users (user_id, name, email, allergies) VALUES (1, 'Alice', 'alice@example.com', 'dairy')")
+    cursor.execute("INSERT INTO Users (user_id, name, email, allergies) VALUES (1, 'Alice', 'alice@example.com', 'nuts')")
     
     cursor.execute("""
     INSERT INTO Ingredients (ingredient_id, name, is_vegetarian, price, calories, protein, allergy_tags)

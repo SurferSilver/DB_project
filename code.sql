@@ -51,7 +51,6 @@ CREATE TABLE Shopping_Lists (
 );
 
 
-
 -- 1. Function to get meals excluding user allergies
 DELIMITER //
 CREATE FUNCTION GetSafeMeals(userId INT)
@@ -61,10 +60,17 @@ BEGIN
     RETURN (
         SELECT GROUP_CONCAT(DISTINCT CONCAT(m.name, ' (', m.recipe_url, ')') SEPARATOR ', ')
         FROM Meals m
-        JOIN Meal_Ingredients mi ON m.meal_id = mi.meal_id
-        JOIN Ingredients i ON mi.ingredient_id = i.ingredient_id
-        JOIN Users u ON u.user_id = userId
-        WHERE i.allergy_tags IS NULL OR u.allergies NOT LIKE CONCAT('%', i.allergy_tags, '%')
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM Meal_Ingredients mi
+            JOIN Ingredients i ON mi.ingredient_id = i.ingredient_id
+            JOIN Users u ON u.user_id = userId
+            WHERE mi.meal_id = m.meal_id
+              AND i.allergy_tags IS NOT NULL
+              AND (
+                  u.allergies LIKE CONCAT('%', i.allergy_tags, '%')
+              )
+        )
     );
 END;
 //
